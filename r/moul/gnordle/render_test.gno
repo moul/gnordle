@@ -140,8 +140,8 @@ have already found must stay where you found it, and a letter you know is in the
 word must appear in every later guess. No client-side game can offer that, and no
 player can fake it. Your streak is a proof.
 
-There are two deployments of this same source: this one, and a {BT}/preview{BT}
-twin flagged {BT}private = true{BT} so it stays redeployable while the design
+There are two deployments of this same source: this one, and a {BT}r/moul/preview/gnordle{BT}
+flagged {BT}private = true{BT} so it stays redeployable while the design
 is still moving. A public path can never be redeployed.
 
 The repository, the checklist and the other three:

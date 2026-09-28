@@ -7,6 +7,7 @@
 
 <p align="center">
   <a href="https://github.com/moul/gnordle/actions/workflows/ci.yml"><img src="https://github.com/moul/gnordle/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://gnoscope.com/realm/r/moul/gnordle"><img src="https://gnoscope.com/_badges/shield/status/r/moul/gnordle?network=mainnet" alt="realm status on mainnet"></a>
   <a href="./CHECKLIST.md"><img src="https://img.shields.io/badge/web2.5-checklist-6aaa64" alt="checklist"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-97ca00.svg" alt="License"></a>
 </p>
@@ -50,7 +51,7 @@ is a stronger thing than a hidden answer ever was.
 ```
 p/moul/gnordle/v0      scoring and the hard-mode rule. no chain import, no word list.
 r/moul/gnordle         the word list, the rounds, the streaks, the pages.
-r/moul/gnordle/preview the same source at a second path, private = true. generated.
+r/moul/preview/gnordle the same source at a second path, private = true. generated.
 web/                   a static page. no build step, no node_modules.
 ```
 
