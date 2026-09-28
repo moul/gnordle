@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>gnordle — the answer is public, the proof is not</title>
+<meta name="description" content="A daily word game on gno.land where the answer is printed on the page, because a chain cannot keep a secret. Hard mode is enforced on chain instead.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='14' height='14' x='1' y='1' fill='%236aaa64'/><rect width='14' height='14' x='17' y='1' fill='%23c9b458'/><rect width='14' height='14' x='1' y='17' fill='%23787c7e'/><rect width='14' height='14' x='17' y='17' fill='%236aaa64'/></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>gnordle</h1>
+  <p class="tagline">The answer is public. The proof is not.</p>
+  <nav>
+    <label>network
+      <select id="network">
+        <option value="mainnet">mainnet · r/moul/gnordle</option>
+        <option value="preview">preview · r/moul/gnordle/preview</option>
+        <option value="local">local gnodev</option>
+      </select>
+    </label>
+    <button id="connect" type="button">Connect wallet</button>
+    <span id="status" class="status">reading only — no wallet needed</span>
+  </nav>
+</header>
+
+<main>
+  <section>
+    <div id="board" class="board"></div>
+    <form id="guess-form" autocomplete="off">
+      <input id="guess" maxlength="5" placeholder="five letters" aria-label="your guess" spellcheck="false">
+      <button type="submit">Guess</button>
+    </form>
+    <p id="msg" class="msg"></p>
+    <p class="board-meta">
+      <button id="share" type="button" class="link">copy result</button>
+      <button id="reload" type="button" class="link">reload from chain</button>
+    </p>
+  </section>
+
+  <aside>
+    <h2>Today</h2>
+    <p id="today" class="fine">reading the chain…</p>
+
+    <h2>Why the answer is on the page</h2>
+    <p>A realm cannot keep a secret. Its source is public the moment it is deployed, and
+    every derivation available to it is derivable by anybody who can read a chain. So this
+    one does not pretend. What the chain <b>can</b> do is prove how you played: hard mode is
+    enforced on chain, so a letter you have found must stay where you found it and a letter
+    you know is in the word must appear in every later guess. Your streak is a proof.</p>
+
+    <h2>Streaks</h2>
+    <div id="streaks"></div>
+
+    <details id="fallback">
+      <summary>No wallet? The command that does the same thing</summary>
+      <pre id="cmd" class="mono"></pre>
+    </details>
+
+    <footer>
+      <p><a id="link-realm" href="https://gno.land/r/moul/gnordle">the realm in gnoweb</a> ·
+         <a href="https://github.com/moul/gnordle">the source</a> ·
+         <a href="https://github.com/moul/gnordle/blob/main/CHECKLIST.md">the checklist</a></p>
+      <p class="fine">Part of an exploration of what a web2.5 app on gno.land actually needs.</p>
+    </footer>
+  </aside>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
