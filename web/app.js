@@ -51,7 +51,10 @@ async function refresh() {
     draw();
   } catch (err) {
     // Not deployed on this network yet is a normal state for a repository whose
-    // whole subject is the deploy story.
+    // whole subject is the deploy story. An empty panel reads as "still
+    // loading" forever, so say what happened instead.
+    $("today").innerHTML = `<p class="fine">Nothing to read here: the realm is not deployed on this network yet, or the node did not answer.</p>`;
+    $("streaks").innerHTML = "";
     say(`${state.netName}: ${err.message}`, "bad");
   }
   if (state.words === null) {
