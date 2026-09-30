@@ -3,11 +3,13 @@
 // before it costs a transaction. The chain remains the one that decides.
 import * as e from "./engine.js";
 import { NETWORKS, qevalString, wallet, gnokeyCommand } from "./chain.js";
+import * as onboarding from "./onboarding.js";
+import * as gnosession from "./session.js";
 
 const $ = (id) => document.getElementById(id);
 const state = {
   net: NETWORKS.mainnet, netName: "mainnet", account: null,
-  answer: "", round: 0, entrants: 0, solvers: 0,
+  answer: "", round: 0, entrants: 0, solvers: 0, session: null, grant: null,
   guesses: [], draft: "", words: null, boards: [],
 };
 
@@ -75,7 +77,7 @@ $("guess-form").addEventListener("submit", async (ev) => {
   if (!state.account) return warn("connect a wallet to play, or paste the command below");
   try {
     say("signing…");
-    await wallet.call(state.net, state.account, "Guess", [word]);
+    await send("Guess", [word]);
     $("guess").value = "";
     state.draft = "";
     say("sent — waiting for the block", "live");
@@ -108,6 +110,34 @@ $("network").addEventListener("change", (ev) => {
   $("cmd").textContent = gnokeyCommand(state.net, "Guess", ["<word>"]);
   refresh();
 });
+
+
+// The session panel. When a session is granted, the app signs here; otherwise it
+// falls back to the wallet. Same caller either way: the chain sees the master.
+const sessionPanel = onboarding.mount({
+  el: $("session"),
+  net: () => state.net,
+  getAccount: () => state.account,
+  setAccount: (addr) => {
+    // Named, not connected: enough to read a grant and to be the caller in one,
+    // and it never lets this page sign anything the session cannot.
+    state.account = addr;
+    say(`playing as ${addr.slice(0, 10)}…`, "live");
+  },
+  keyName: "YOURKEY",
+  onChange: ({ session, grant }) => { state.session = session; state.grant = grant; },
+});
+
+/** send signs with the session when there is one, and with the wallet when not. */
+async function send(fn, args) {
+  if (state.grant) {
+    return gnosession.call({
+      rpcUrl: state.net.rpc, chainId: state.net.chainId,
+      session: state.session, grant: state.grant, func: fn, args,
+    });
+  }
+  return wallet.call(state.net, state.account, fn, args);
+}
 
 $("cmd").textContent = gnokeyCommand(state.net, "Guess", ["<word>"]);
 draw();
